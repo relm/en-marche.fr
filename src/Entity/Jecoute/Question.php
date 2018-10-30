@@ -60,7 +60,7 @@ class Question
     /**
      * @var Choice[]|Collection
      *
-     * @ORM\OneToMany(targetEntity="Choice", mappedBy="question", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="Choice", mappedBy="question", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"position": "ASC"})
      *
      * @Assert\Valid
@@ -139,6 +139,11 @@ class Question
     public function getChoices(): Collection
     {
         return $this->choices;
+    }
+
+    public function setChoices(array $choices): void
+    {
+        $this->choices = $choices;
     }
 
     public function isChoiceType(): bool
