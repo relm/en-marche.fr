@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
+use AppBundle\Entity\IdeasWorkshop\Comment;
+use AppBundle\Entity\IdeasWorkshop\Note;
 use AppBundle\OAuth\Model\User as InMemoryOAuthUser;
 use AppBundle\Collection\CitizenProjectMembershipCollection;
 use AppBundle\Collection\CommitteeMembershipCollection;
@@ -259,11 +261,23 @@ class Adherent implements UserInterface, GeoPointInterface, EncoderAwareInterfac
      */
     private $mandate;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\IdeasWorkshop\Note", mappedBy="adherent")
+     */
+    private $notes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\IdeasWorkshop\Comment", mappedBy="adherent")
+     */
+    private $comments;
+
     public function __construct()
     {
         $this->memberships = new ArrayCollection();
         $this->citizenProjectMemberships = new ArrayCollection();
         $this->subscriptionTypes = new ArrayCollection();
+        $this->notes = new ArrayCollection();
+        $this->comments = new ArrayCollection();
     }
 
     public static function create(
@@ -1201,5 +1215,35 @@ class Adherent implements UserInterface, GeoPointInterface, EncoderAwareInterfac
     public function getMandate(): ?string
     {
         return $this->mandate;
+    }
+
+    public function addNote(Note $note): void
+    {
+        $this->notes->add($note);
+    }
+
+    public function removeNote(Note $note): void
+    {
+        $this->notes->removeElement($note);
+    }
+
+    public function getNotes(): ArrayCollection
+    {
+        return $this->notes;
+    }
+
+    public function addComment(Comment $comment): void
+    {
+        $this->comments->add($comment);
+    }
+
+    public function removeComment(Comment $comment): void
+    {
+        $this->comments->removeElement($comment);
+    }
+
+    public function getComments(): ArrayCollection
+    {
+        return $this->comments;
     }
 }
