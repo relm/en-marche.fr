@@ -44,9 +44,10 @@ class Idea
     private $theme;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category")
+     * @ORM\ManyToMany(targetEntity="Category")
+     * @ORM\JoinTable(name="ideas_workshop_ideas_categories")
      */
-    private $category;
+    private $categories;
 
     /**
      * @ORM\ManyToMany(targetEntity="Need")
@@ -95,7 +96,6 @@ class Idea
         UuidInterface $uuid,
         string $name,
         Adherent $adherent,
-        Category $category,
         Theme $theme,
         Committee $committee = null,
         \DateTime $publishedAt = null,
@@ -104,12 +104,12 @@ class Idea
         $this->uuid = $uuid;
         $this->setName($name);
         $this->adherent = $adherent;
-        $this->category = $category;
         $this->theme = $theme;
         $this->committee = $committee;
         $this->publishedAt = $publishedAt;
         $this->status = $status;
         $this->needs = new ArrayCollection();
+        $this->categories = new ArrayCollection();
         $this->answers = new ArrayCollection();
         $this->createdAt = new \DateTime();
     }
@@ -124,14 +124,21 @@ class Idea
         $this->theme = $theme;
     }
 
-    public function getCategory(): Category
+    public function getCategories(): Collection
     {
-        return $this->category;
+        return $this->categories;
     }
 
-    public function setCategory(Category $category): void
+    public function addCategory(Category $category): void
     {
-        $this->category = $category;
+        if (!$this->categories->contains($category)) {
+            $this->categories->add($category);
+        }
+    }
+
+    public function removeCategory(Category $category): void
+    {
+        $this->categories->removeElement($category);
     }
 
     public function getNeeds(): ArrayCollection

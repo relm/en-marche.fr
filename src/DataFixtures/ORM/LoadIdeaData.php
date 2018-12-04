@@ -28,13 +28,13 @@ class LoadIdeaData extends AbstractFixture implements DependentFixtureInterface
             Uuid::fromString(self::IDEA_01_UUID),
             $ideaName,
             $adherent,
-            $category,
             $theme,
             $committee,
             new \DateTime('2018-12-01 10:00:00'),
             IdeaStatusEnum::PUBLISHED
         );
         $ideaMakePeace->addNeed($need);
+        $ideaMakePeace->addCategory($category);
         $this->addReference('idea-peace', $ideaMakePeace);
 
         $ideaName = 'Favoriser l\'écologie';
@@ -42,11 +42,11 @@ class LoadIdeaData extends AbstractFixture implements DependentFixtureInterface
             Uuid::fromString(self::IDEA_02_UUID),
             $ideaName,
             $adherent,
-            $category,
             $theme,
             $committee,
             new \DateTime('2018-12-02 10:00:00')
         );
+        $ideaHelpEcology->addCategory($category);
         $this->addReference('idea-help-ecology', $ideaHelpEcology);
 
         $ideaName = 'Aider les gens';
@@ -54,11 +54,11 @@ class LoadIdeaData extends AbstractFixture implements DependentFixtureInterface
             Uuid::fromString(self::IDEA_03_UUID),
             $ideaName,
             $adherent,
-            $category,
             $theme,
             $committee,
             new \DateTime('2018-12-03 10:00:00')
         );
+        $ideaHelpPeople->addCategory($category);
         $this->addReference('idea-help-people', $ideaHelpPeople);
 
         $manager->persist($ideaMakePeace);

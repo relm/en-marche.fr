@@ -3,7 +3,6 @@
 namespace AppBundle\Entity\IdeasWorkshop;
 
 use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
-use AppBundle\Entity\EntityNameSlugTrait;
 use AppBundle\Entity\ImageTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -13,17 +12,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * @ORM\Table(
  *     name="ideas_workshop_theme",
  *     uniqueConstraints={
- *         @ORM\UniqueConstraint(name="theme_slug_unique", columns="slug")
+ *         @ORM\UniqueConstraint(name="theme_name_unique", columns="name")
  *     }
  * )
  *
- * @UniqueEntity("slug")
+ * @UniqueEntity("name")
  *
  * @Algolia\Index(autoIndex=false)
  */
 class Theme
 {
-    use EntityNameSlugTrait;
     use ImageTrait;
 
     /**
@@ -34,6 +32,13 @@ class Theme
      * @ORM\GeneratedValue
      */
     private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column
+     */
+    protected $name;
 
     /**
      * @var bool
@@ -53,6 +58,16 @@ class Theme
         return $this->id;
     }
 
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): void
+    {
+        $this->name = $name;
+    }
+
     public function isEnabled(): bool
     {
         return $this->enabled;
@@ -61,5 +76,15 @@ class Theme
     public function setEnabled(bool $enabled): void
     {
         $this->enabled = $enabled;
+    }
+
+    public function getImagePath(): string
+    {
+        return sprintf('images/themes/%s', $this->getImageName());
+    }
+
+    public function __toString(): string
+    {
+        return $this->name ?: '';
     }
 }
