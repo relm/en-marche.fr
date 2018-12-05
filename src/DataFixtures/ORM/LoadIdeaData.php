@@ -3,7 +3,6 @@
 namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\IdeasWorkshop\Idea;
-use AppBundle\Entity\IdeasWorkshop\IdeaStatusEnum;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -28,13 +27,12 @@ class LoadIdeaData extends AbstractFixture implements DependentFixtureInterface
             Uuid::fromString(self::IDEA_01_UUID),
             $ideaName,
             $adherent,
-            $theme,
+            $category,
             $committee,
-            new \DateTime('2018-12-01 10:00:00'),
-            IdeaStatusEnum::PUBLISHED
+            new \DateTime()
         );
         $ideaMakePeace->addNeed($need);
-        $ideaMakePeace->addCategory($category);
+        $ideaMakePeace->addTheme($theme);
         $this->addReference('idea-peace', $ideaMakePeace);
 
         $ideaName = 'Favoriser l\'écologie';
@@ -42,11 +40,10 @@ class LoadIdeaData extends AbstractFixture implements DependentFixtureInterface
             Uuid::fromString(self::IDEA_02_UUID),
             $ideaName,
             $adherent,
-            $theme,
-            $committee,
-            new \DateTime('2018-12-02 10:00:00')
+            $category,
+            $committee
         );
-        $ideaHelpEcology->addCategory($category);
+        $ideaHelpEcology->addTheme($theme);
         $this->addReference('idea-help-ecology', $ideaHelpEcology);
 
         $ideaName = 'Aider les gens';
@@ -54,11 +51,11 @@ class LoadIdeaData extends AbstractFixture implements DependentFixtureInterface
             Uuid::fromString(self::IDEA_03_UUID),
             $ideaName,
             $adherent,
-            $theme,
+            $category,
             $committee,
-            new \DateTime('2018-12-03 10:00:00')
+            new \DateTime()
         );
-        $ideaHelpPeople->addCategory($category);
+        $ideaHelpPeople->addTheme($theme);
         $this->addReference('idea-help-people', $ideaHelpPeople);
 
         $manager->persist($ideaMakePeace);

@@ -39,15 +39,15 @@ class Idea
     private const PUBLISHED_INTERVAL = 'P3W';
 
     /**
-     * @ORM\ManyToOne(targetEntity="Theme")
+     * @ORM\ManyToMany(targetEntity="Theme")
+     * @ORM\JoinTable(name="ideas_workshop_ideas_themes")
      */
-    private $theme;
+    private $themes;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Category")
-     * @ORM\JoinTable(name="ideas_workshop_ideas_categories")
+     * @ORM\ManyToOne(targetEntity="Category")
      */
-    private $categories;
+    private $category;
 
     /**
      * @ORM\ManyToMany(targetEntity="Need")
@@ -96,7 +96,7 @@ class Idea
         UuidInterface $uuid,
         string $name,
         Adherent $adherent,
-        Theme $theme,
+        Category $category,
         Committee $committee = null,
         \DateTime $publishedAt = null,
         string $status = IdeaStatusEnum::PENDING
@@ -104,41 +104,41 @@ class Idea
         $this->uuid = $uuid;
         $this->setName($name);
         $this->adherent = $adherent;
-        $this->theme = $theme;
+        $this->category = $category;
         $this->committee = $committee;
         $this->publishedAt = $publishedAt;
         $this->status = $status;
         $this->needs = new ArrayCollection();
-        $this->categories = new ArrayCollection();
+        $this->themes = new ArrayCollection();
         $this->answers = new ArrayCollection();
         $this->createdAt = new \DateTime();
     }
 
-    public function getTheme(): Theme
+    public function getCategory(): Category
     {
-        return $this->theme;
+        return $this->category;
     }
 
-    public function setTheme(Theme $theme): void
+    public function setCategory(Category $category): void
     {
-        $this->theme = $theme;
+        $this->category = $category;
     }
 
-    public function getCategories(): Collection
+    public function getThemes(): Collection
     {
-        return $this->categories;
+        return $this->themes;
     }
 
-    public function addCategory(Category $category): void
+    public function addTheme(Theme $theme): void
     {
-        if (!$this->categories->contains($category)) {
-            $this->categories->add($category);
+        if (!$this->themes->contains($theme)) {
+            $this->themes->add($theme);
         }
     }
 
-    public function removeCategory(Category $category): void
+    public function removeTheme(Theme $theme): void
     {
-        $this->categories->removeElement($category);
+        $this->themes->removeElement($theme);
     }
 
     public function getNeeds(): ArrayCollection

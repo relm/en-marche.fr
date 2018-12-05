@@ -20,14 +20,8 @@ class IdeasWorkshopThemeAdmin extends AbstractAdmin
 
     private $themeManager;
 
-    public function __construct(
-        string $code,
-        string $class,
-        string $baseControllerName,
-        ThemeManager $themeManager
-    ) {
-        parent::__construct($code, $class, $baseControllerName);
-
+    public function setThemeManager(ThemeManager $themeManager): void
+    {
         $this->themeManager = $themeManager;
     }
 
@@ -67,10 +61,9 @@ class IdeasWorkshopThemeAdmin extends AbstractAdmin
             ->add('enabled', null, [
                 'label' => 'Visibilité',
             ])
-            ->add('image', null, [
+            ->add('_image', 'thumbnail', [
                 'label' => 'Image',
                 'virtual_field' => true,
-                'template' => 'admin/list/list_image_miniature.html.twig',
             ])
             ->add('_action', null, [
                 'virtual_field' => true,
