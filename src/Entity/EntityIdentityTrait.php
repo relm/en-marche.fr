@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 
@@ -13,6 +14,7 @@ trait EntityIdentityTrait
      *
      * @var int|null
      *
+     * @ApiProperty(identifier=false)
      * @ORM\Id
      * @ORM\Column(type="integer", options={"unsigned": true})
      * @ORM\GeneratedValue
@@ -26,6 +28,7 @@ trait EntityIdentityTrait
      *
      * @ORM\Column(type="uuid")
      *
+     * @ApiProperty(identifier=true)
      * @Algolia\Attribute
      */
     protected $uuid;

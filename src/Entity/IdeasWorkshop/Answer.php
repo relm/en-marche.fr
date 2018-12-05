@@ -6,7 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
-use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Table(name="ideas_workshop_answer")
@@ -26,6 +26,7 @@ class Answer
     private $id;
 
     /**
+     * @Groups("idea_read")
      * @ORM\Column(type="text")
      */
     private $content;
@@ -36,8 +37,7 @@ class Answer
     private $question;
 
     /**
-     * @JMS\SkipWhenEmpty
-     * @JMS\Groups({"idea_list"})
+     * @Groups({"idea_read"})
      * @ORM\OneToMany(targetEntity="Thread", mappedBy="answer")
      */
     private $threads;

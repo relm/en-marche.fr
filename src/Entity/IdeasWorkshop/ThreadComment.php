@@ -7,7 +7,7 @@ use AppBundle\Entity\Adherent;
 use AppBundle\Entity\EntitySoftDeletableTrait;
 use AppBundle\Entity\EntityTimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
-use JMS\Serializer\Annotation as JMS;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Table(name="ideas_workshop_comment")
@@ -38,7 +38,7 @@ class ThreadComment
     private $content;
 
     /**
-     * @JMS\Groups({"idea_list"})
+     * @Groups({"idea_read"})
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Adherent")
      * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
      */
