@@ -80,7 +80,7 @@ class Theme
 
     public function getImagePath(): string
     {
-        return sprintf('images/themes/%s', $this->getImageName());
+        return sprintf('images/ideas_workshop/themes/%s', $this->getImageName());
     }
 
     public function __toString(): string
