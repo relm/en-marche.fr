@@ -16,6 +16,7 @@ class LoadAdherentTagData extends AbstractFixture implements FixtureInterface
         'AT004' => 'Peu actif',
         'AT005' => 'Médiation',
         'AT006' => 'Suppléant',
+        'AT007' => 'Idées',
     ];
 
     public function load(ObjectManager $manager)

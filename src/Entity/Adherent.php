@@ -1225,21 +1225,4 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     {
         return !empty($this->mandates);
     }
-
-    public function addIdea(Idea $idea): void
-    {
-        if (!$this->ideas->contains($idea)) {
-            $this->ideas->add($idea);
-        }
-    }
-
-    public function removeIdea(Idea $idea): void
-    {
-        $this->ideas->removeElement($idea);
-    }
-
-    public function getIdeas(): Collection
-    {
-        return $this->ideas;
-    }
 }

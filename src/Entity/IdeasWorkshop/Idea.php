@@ -310,14 +310,6 @@ class Idea
     /**
      * @SymfonySerializer\Groups("idea_list_read")
      */
-    public function getAuthorCategory(): string
-    {
-        return $this->withCommittee ? 'committee' : 'adherent';
-    }
-
-    /**
-     * @SymfonySerializer\Groups("idea_list_read")
-     */
     public function getVotesCount(): int
     {
         return $this->votes->count();
