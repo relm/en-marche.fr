@@ -29,7 +29,7 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *     }
  * )
  *
- * @ApiFilter(SearchFilter::class, properties={"status": "exact", "name": "partial", "theme": "exact", "status": "author_category"})
+ * @ApiFilter(SearchFilter::class, properties={"status": "exact", "name": "partial", "theme": "exact", "author_category": "exact"})
  *
  * @ORM\Entity
  *

@@ -14,6 +14,7 @@ class LoadIdeaData extends AbstractFixture implements DependentFixtureInterface
     public const IDEA_01_UUID = 'e4ac3efc-b539-40ac-9417-b60df432bdc5';
     public const IDEA_02_UUID = '3b1ea810-115f-4b2c-944d-34a55d7b7e4d';
     public const IDEA_03_UUID = 'aa093ce6-8b20-4d86-bfbc-91a73fe47285';
+    public const IDEA_04_UUID = 'c14937d6-fd42-465c-8419-ced37f3e6194';
 
     public function load(ObjectManager $manager)
     {
@@ -61,9 +62,23 @@ class LoadIdeaData extends AbstractFixture implements DependentFixtureInterface
         );
         $this->addReference('idea-help-people', $ideaHelpPeople);
 
+        $ideaReduceWaste = new Idea(
+            Uuid::fromString(self::IDEA_04_UUID),
+            'Réduire le gaspillage',
+            $adherent,
+            $category,
+            $theme,
+            false,
+            null,
+            new \DateTime('2018-12-04 10:00:00'),
+            IdeaStatusEnum::FINALIZED
+        );
+        $this->addReference('idea-reduce-waste', $ideaReduceWaste);
+
         $manager->persist($ideaMakePeace);
         $manager->persist($ideaHelpEcology);
         $manager->persist($ideaHelpPeople);
+        $manager->persist($ideaReduceWaste);
 
         $manager->flush();
     }
