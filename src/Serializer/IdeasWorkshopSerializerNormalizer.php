@@ -24,11 +24,11 @@ class IdeasWorkshopSerializerNormalizer implements NormalizerInterface
         $this->threadCommentRepository = $threadCommentRepository;
     }
 
-    public function normalize($idea, $format = null, array $context = array())
+    public function normalize($idea, $format = null, array $context = [])
     {
         $data = $this->normalizer->normalize($idea, $format, $context);
 
-        if (in_array('idea_list_read', $context['groups'])) {
+        if (\in_array('idea_list_read', $context['groups'])) {
             $data['contributors_count'] = $this->adherentRepository->countIdeaContributors($idea);
             $data['comments_count'] = $this->threadCommentRepository->countThreadComments($idea);
         }

@@ -15,7 +15,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 use Symfony\Component\Validator\Constraints as Assert;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 
@@ -24,11 +24,12 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
  *     collectionOperations={"get": {"method": "GET"}},
  *     itemOperations={"get": {"method": "GET"}},
  *     attributes={
- *         "normalization_context": {"groups": {"idea_read"}}
+ *         "normalization_context": {"groups": {"idea_list_read"}},
+ *         "order": {"createdAt": "ASC"}
  *     }
  * )
  *
- * @ApiFilter(SearchFilter::class, properties={"status": "exact"})
+ * @ApiFilter(SearchFilter::class, properties={"status": "exact", "name": "partial", "theme": "exact", "status": "author_category"})
  *
  * @ORM\Entity
  *
@@ -71,7 +72,7 @@ class Idea
     private $needs;
 
     /**
-     * @SymfonySerializer\Groups({"idea_list_read", "idea_read"})
+     * @SymfonySerializer\Groups("idea_list_read")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Adherent", inversedBy="ideas")
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
@@ -80,7 +81,7 @@ class Idea
     /**
      * @var \DateTime
      *
-     * @Groups("idea_read")
+     * @SymfonySerializer\Groups("idea_list_read")
      * @ORM\Column(type="datetime", nullable=true)
      */
     private $publishedAt;
@@ -88,7 +89,7 @@ class Idea
     /**
      * @var Committee
      *
-     * @Groups("idea_read")
+     * @SymfonySerializer\Groups("idea_list_read")
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Committee")
      */
     private $committee;
@@ -99,6 +100,7 @@ class Idea
      *     strict=true,
      * )
      *
+     * @SymfonySerializer\Groups("idea_list_read")
      * @ORM\Column(length=11, options={"default": IdeaStatusEnum::DRAFT})
      */
     private $status;
@@ -106,12 +108,12 @@ class Idea
     /**
      * @var bool
      *
+     * @SymfonySerializer\Groups("idea_list_read")
      * @ORM\Column(type="boolean", options={"default": 0})
      */
     private $withCommittee;
 
     /**
-     * @Groups("idea_read")
      * @ORM\OneToMany(targetEntity="Answer", mappedBy="idea")
      */
     private $answers;
@@ -270,7 +272,7 @@ class Idea
     }
 
     /**
-     * @Groups("idea_read")
+     * @SymfonySerializer\Groups("idea_list_read")
      */
     public function getDaysBeforeDeadline(): int
     {
@@ -303,5 +305,21 @@ class Idea
     public function getUuidAsString(): string
     {
         return $this->getUuid()->toString();
+    }
+
+    /**
+     * @SymfonySerializer\Groups("idea_list_read")
+     */
+    public function getAuthorCategory(): string
+    {
+        return $this->withCommittee ? 'committee' : 'adherent';
+    }
+
+    /**
+     * @SymfonySerializer\Groups("idea_list_read")
+     */
+    public function getVotesCount(): int
+    {
+        return $this->votes->count();
     }
 }

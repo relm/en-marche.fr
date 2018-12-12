@@ -262,7 +262,7 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     private $mandates;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\IdeasWorkshop\Idea", mappedBy="adherent", fetch="EXTRA_LAZY")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\IdeasWorkshop\Idea", mappedBy="author", fetch="EXTRA_LAZY")
      */
     private $ideas;
 
