@@ -4,9 +4,11 @@ namespace AppBundle\Entity\IdeasWorkshop;
 
 use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation as SymfonySerializer;
 
 /**
  * @ORM\Table(name="ideas_workshop_guideline")
@@ -35,6 +37,7 @@ class Guideline
     /**
      * @var ArrayCollection
      *
+     * @SymfonySerializer\Groups("idea_read")
      * @ORM\OneToMany(targetEntity="Question", mappedBy="guideline")
      */
     private $questions;
@@ -44,6 +47,7 @@ class Guideline
      *
      * @Gedmo\SortablePosition
      *
+     * @SymfonySerializer\Groups("idea_read")
      * @ORM\Column(type="smallint", options={"unsigned": true})
      */
     private $position;
@@ -80,7 +84,7 @@ class Guideline
         $this->questions->removeElement($question);
     }
 
-    public function getQuestions(): ArrayCollection
+    public function getQuestions(): Collection
     {
         return $this->questions;
     }

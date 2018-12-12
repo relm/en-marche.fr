@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Algolia\AlgoliaSearchBundle\Mapping\Annotation as Algolia;
+use AppBundle\Entity\IdeasWorkshop\Idea;
 use AppBundle\OAuth\Model\User as InMemoryOAuthUser;
 use AppBundle\Collection\CitizenProjectMembershipCollection;
 use AppBundle\Collection\CommitteeMembershipCollection;
@@ -260,11 +261,17 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
      */
     private $mandates;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\IdeasWorkshop\Idea", mappedBy="adherent", fetch="EXTRA_LAZY")
+     */
+    private $ideas;
+
     public function __construct()
     {
         $this->memberships = new ArrayCollection();
         $this->citizenProjectMemberships = new ArrayCollection();
         $this->subscriptionTypes = new ArrayCollection();
+        $this->ideas = new ArrayCollection();
     }
 
     public static function create(
@@ -1217,5 +1224,22 @@ class Adherent implements UserInterface, UserEntityInterface, GeoPointInterface,
     public function hasMandate(): bool
     {
         return !empty($this->mandates);
+    }
+
+    public function addIdea(Idea $idea): void
+    {
+        if (!$this->ideas->contains($idea)) {
+            $this->ideas->add($idea);
+        }
+    }
+
+    public function removeIdea(Idea $idea): void
+    {
+        $this->ideas->removeElement($idea);
+    }
+
+    public function getIdeas(): Collection
+    {
+        return $this->ideas;
     }
 }

@@ -11,7 +11,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * @ORM\Table(name="ideas_workshop_comment")
- * @ORM\Entity
+ *
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ThreadCommentRepository")
  *
  * @Algolia\Index(autoIndex=false)
  */
@@ -38,7 +39,6 @@ class ThreadComment
     private $content;
 
     /**
-     * @Groups({"idea_read"})
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Adherent")
      * @ORM\JoinColumn(onDelete="CASCADE", nullable=false)
      */
